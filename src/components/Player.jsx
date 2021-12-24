@@ -1,16 +1,27 @@
 import React, { useEffect } from 'react';
 import { useContext } from 'react';
+import {useHistory} from 'react-router-dom';
 
 const Player = () => {
-
-    const flag = false;
+    const history = useHistory();
+    const handleClick=()=> history.push("/question");
+    let flag = false;
     useEffect(() => {
         console.log('Elemento Player en linea');
     }, []);
 
     function validateNick(event) {
-        console.log("Tenemos: " + event);
         flag = event.length >= 3 ? true : false;
+        var btn = document.getElementById("btnPlay");
+        var msg = document.getElementById("msgPlay");
+
+        if (flag) {
+            btn.style.display = "block";
+            msg.style.display = "none";
+        } else {
+            btn.style.display = "none";
+            msg.style.display = "block";
+        }
     }
     return (
         <div className="container">
@@ -21,17 +32,13 @@ const Player = () => {
             </div>
 
             <form>
-                <div class="form-group">
-                    <label for="playerName">Nick</label>
-                    <input onChangeText={(e) => validateNick(e.target.value)} type="name" class="form-control" id="playerName" placeholder="Enter nickname" />
-                    <small id="playerName" class="form-text text-muted">Que inicie la diversion.</small>
+                <div className="form-group">
+                    <label>Nick</label>
+                    <input onChange={(e) => validateNick(e.target.value)} type="name" className="form-control" id="playerName" placeholder="Enter nickname" />
+                    <small id="playerName" className="form-text text-muted">Que inicie la diversion.</small>
                 </div>
-                {
-                   flag == true ? 
-                   <button type="submit" class="btn btn-primary">Jugar</button> 
-                   : <h1>Recuerda ingresar tu Nick</h1>
-                }
-                
+                <button onClick={handleClick} className="btn btn-primary" id="btnPlay" style={{ display: "none" }}>Jugar</button>
+                <h4 id="msgPlay">Recuerda ingresar tu Nick</h4>
             </form>
         </div>
     );
