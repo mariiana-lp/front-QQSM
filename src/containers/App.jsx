@@ -1,5 +1,5 @@
 import React from 'react';
-import{
+import {
     BrowserRouter as Router,
     Switch,
     Route
@@ -10,12 +10,16 @@ import Player from "../components/Player";
 import Question from "../components/Question";
 //import Ranking from "../components/Player";
 function App() {
-    return(
+    return (
         <div className="container">
             <Router>
                 <Switch>
-                    <Route path='/' component={Player} exact></Route>
-                    <Route path='/question' component={Question} exact></Route>
+                    <Route path='/' exact>
+                        <Player/>
+                    </Route>
+                    <Route path='/question/:name' exact>
+                        <Question></Question>
+                    </Route>
                 </Switch>
             </Router>
         </div>
