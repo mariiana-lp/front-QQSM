@@ -1,16 +1,31 @@
 import React, { useEffect } from 'react';
-import { useContext } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from './Header';
 
 function Question () {
     const {name} = useParams()
-
+    const url ='http://localhost:8080/api/'
+    const [todos, setTodos] = useState()
+    const [question, setQuestion] = useState()
+    const extractQuestion = async ()=>{
+        const response = await fetch(url+'questions/1')
+        console.log(response)
+        const respJson = await response.json()
+        setTodos(respJson)
+        console.log(respJson)
+        chooseQuestion()
+    }
     useEffect(() => {
         console.log('Elemento question en linea');
-        saveDataPlayer()
-
+        extractQuestion()
+        saveDataPlayer()        
     }, []);
+
+    function chooseQuestion(){
+        var selected = Math.floor(Math.random() * (5 - 0) + 1);
+        console.log("Quedo la pregunta: "+selected);
+    }
 
      function saveDataPlayer() {
          console.log("estoy guardando")
@@ -24,7 +39,7 @@ function Question () {
                 body: JSON.stringify({name:name, score:0})
             }
  
-            let res = fetch('http://localhost:8080/api/player',config)
+            let res = fetch(url+'player',config)
             let json = res.json()
             console.log(json)
         }catch(error){
@@ -36,7 +51,7 @@ function Question () {
         <>
         <h4>Esta jugando: {name}</h4>
             <Header></Header>
-
+         
         </>
     )
 }
